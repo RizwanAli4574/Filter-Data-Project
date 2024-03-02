@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schools in Pakistan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="data">
+    
+<label for="cityDropdown">Select City:</label>
+<select id="cityDropdown" onchange="filterSchools()">
+    <option value="All">All Cities</option>
+    <option value="Karachi">Karachi</option>
+    <option value="Lahore">Lahore</option>
+    <option value="Islamabad">Islamabad</option>
+    <!-- Add more cities as needed -->
+</select>
+
+<label for="studentNameDropdown">Select Student Name:</label>
+<select id="studentNameDropdown" onchange="filterSchools()">
+    <option value="All">All Students</option>
+    <!-- You can dynamically populate student names here based on your data -->
+</select>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>School Name</th>
+            <th>Student Name</th>
+            <th>Class</th>
+            <th>City</th>
+            <th>subject</th>
+        </tr>
+    </thead>
+    <tbody id="filteredSchoolsTableBody"></tbody>
+</table>
+</div>
+<script>
+    var schoolsInPakistan = [
+        {
+            city: "Karachi",
+            schoolName: "Happy School",
+            details: {
+                name1: "Ali",
+                age: 12,
+                class: "6th",
+                subject: ["Math", "Science", "English"]
+            }
+        },
+        {
+            city: "Lahore",
+            schoolName: "Bright Future Academy",
+            details: {
+                name1: "Sara",
+                age: 14,
+                class: "8th",
+                subject: ["Social Studies", "Urdu", "Art"]
+            }
+        },
+        {
+            city: "Islamabad",
+            schoolName: "Green Hills School",
+            details: {
+                name1: "Ahmed",
+                age: 10,
+                class: "4th",
+                subject: ["Computer", "Islamiat", "Geography"]
+            }
+        },
+        {
+            city: "Multan",
+            schoolName: "Allied School System",
+            details: {
+                name1: "Raza",
+                age: 11,
+                class: "3th",
+                subject: ["Computer", "Islamiat", "Geography"]
+            }
+        },
+        {
+            city: "Faislabad",
+            schoolName: "Unique Model School",
+            details: {
+                name1: "Numan",
+                age: 15,
+                class: "10th",
+                subject: ["Urdu", "English", "Math"]
+            }
+        },
+        {
+            city: "Vehari",
+            schoolName: "Muslim Ideal School",
+            details: {
+                name1: "Waqar",
+                age: 11,
+                class: "6th",
+                subject: ["Computer", "Islamiat", "Urdu"]
+            }
+        },
+        {
+            city: "Lahore",
+            schoolName: "Dar Ul Madina",
+            details: {
+                name1: "Waqas",
+                age: 13,
+                class: "4th",
+                subject: ["Computer", "Islamiat", "Geography"]
+            }
+        },
+        {
+            city: "Islamabad",
+            schoolName: "Green Hills School",
+            details: {
+                name1: "Tariq",
+                age: 16,
+                class: "8th",
+                subject: ["English", "Islamiat", "Math"]
+            }
+        },
+        {
+            city: "Gujrat",
+            schoolName: "Dar e Arqam",
+            details: {
+                name1: "Ahmed ali",
+                age: 13,
+                class: "8th",
+                subject: ["Computer", "Islamiat", "Geography"]
+            }
+        },
+        {
+            city: "Okara",
+            schoolName: "Green Twon School",
+            details: {
+                name1: "Faraz",
+                age: 10,
+                class: "5th",
+                subject: ["Urdu", "Math", "Islamiat"]
+            }
+        },
+        {
+            city: "Islamabad",
+            schoolName: "Green Hills School",
+            details: {
+                name1: "Rizwan Ali ",
+                age: 11,
+                class: "7th",
+                subject: ["Computer", "Islamiat", "English"]
+            }
+        },
+        {
+            city: "Lahore",
+            schoolName: "Stars Sachool System",
+            details: {
+                name1: "Tayyab",
+                age: 7,
+                class: "4th",
+                subject: ["Computer", "Islamiat", "Geography"]
+            }
+        },
+        {
+            city: "Karachi",
+            schoolName: "The Muslim School",
+            details: {
+                name1: "Ali",
+                age: 11,
+                class: "4th",
+                subject: ["Computer", "Islamiat", "Urdu"]
+            }
+        },
+        
+    ];
+
+    function populateStudentNames() {
+        var studentNameDropdown = document.getElementById("studentNameDropdown");
+        var allStudentNames = schoolsInPakistan.map(school => school.details.name1);
+        var uniqueStudentNames = [...new Set(allStudentNames)]; // Remove duplicates
+
+        uniqueStudentNames.forEach(studentName => {
+            var option = document.createElement("option");
+            option.value = studentName;
+            option.textContent = studentName;
+            studentNameDropdown.appendChild(option);
+        });
+    }
+
+    function filterSchools() {
+        var selectedCity = document.getElementById("cityDropdown").value;
+        var selectedStudent = document.getElementById("studentNameDropdown").value;
+
+        var filteredSchools = schoolsInPakistan.filter(school =>
+            (selectedCity === "All" || school.city === selectedCity) &&
+            (selectedStudent === "All" || school.details.name1 === selectedStudent)
+        );
+
+        displayFilteredSchools(filteredSchools);
+    }
+
+    function displayFilteredSchools(filteredSchools) {
+        var filteredSchoolsTableBody = document.getElementById("filteredSchoolsTableBody");
+        filteredSchoolsTableBody.innerHTML = "";
+
+        filteredSchools.forEach(school => {
+            var row = filteredSchoolsTableBody.insertRow();
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+
+            cell1.textContent = school.schoolName;
+            cell2.textContent = school.details.name1;
+            cell3.textContent = school.details.class;
+            cell4.textContent = school.city;
+            cell5.textContent = school.details.subject;
+        });
+    }
+
+    // Initial display with all schools
+    populateStudentNames();
+    filterSchools();
+</script>
+
+</body>
+</html>
+
+
